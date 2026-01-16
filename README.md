@@ -1,1 +1,60 @@
-test
+
+## Overview of BGP Automonous systems
+- BGP messages include the ASN of the advertising router
+- ASNs are provided to an organization of three ways:  
+    - Directly from their local Regional Internet Gateway RIR
+    - From the Internet Service Provider (ISP)
+        -iSP gives them a private AS, when I comes into ISP network  will strip the Private AS and replace it with Global Public AS
+    - Local configuration (When BGP will only be used internally)
+- Originally ASNs where 16 bit values
+- ALl ASNs values assigned since 2006 have been 32 bit values
+
+
+
+### Usage of BGP ASNs
+- Determination of IBGP or EBGP peering
+- Loop detection and prevention
+    - if it seems its on AS in a As path update, it will drop it.. it doesn't want to use that path.. updates on path are only there beacause al;l the AS on the path were generated from those routers and left those routers on the way
+BGP has its own table
+- BGP will always select the best path, even if there are multiple advertisements to the path 
+- Attempts at influencing eBPG peers and their path selection
+
+
+### ASN Categories
+- ANS are divided into three categories
+    - Reserved ASNs:
+        - For documentation purposes only
+        - For 2-byte to 4 byte ASN transition
+- Each of the thee categories has a range of values in both 2 byte(16 bit old) ASN allocation scheme and current 4-byte(32bit) allocation scheme
+    
+
+### Reserved ASNs
+- 24,256 reserved for representing 4-byte ASNs to older (legacy) 2-byte ASN devices
+- 64496 to 64511 (2-byte ASNs)
+- 65536 to 65551 (4-byte ASNs)
+
+### Private ASNs
+- 64512 to 65534
+- 65536 is revered for special use (avoid using if possible)
+
+### Public ASNs ae everything else
+
+
+### Why so Private
+ - There are a few reason why one might choose to utilize Private SNS
+    - your ISP tells you to
+    - You wan to use BGP internally with no intention of using it with an ISP
+    - You want to incorporate eBGP within your internal ASN and avoid iBGP restrictions (think in a datacenter with thousands of routes)
+
+### Simple BGP Configuration
+- Initial BGP configuration on a Cisco router involves providing (at minimum) the following information:
+    - Local ASN of a router
+    - IPv4 address of at least one BGP peer
+    - IPV4 reachability to peer address(<i>route in routing table<i>)
+    - ASN value of BP Peer
+
+```
+Router BGP 100
+    neighbor 2.2.2.2 remote-as 1.2
+
+```
